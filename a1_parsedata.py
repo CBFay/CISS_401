@@ -1,23 +1,22 @@
-# CB Fay
-# Top Spotify Songs of 2017
-
 import csv
 import json
 
-lncount = 0
-with open("data.csv") as f:
-    readCSV = csv.reader(f, delimiter=',')
+with open("chocolate.csv") as file:
+	reader = list(csv.reader(file, delimiter=','))
     
-    # Print Formatted Fields
-    for line in readCSV:
-        print(line[:3])
-        lncount += 1
- 
-        if lncount > 20:
-            print()
-            break
-            
-            
-    # Print JSON format
-    data = list(readCSV)
-    print(json.dumps([line[:3] for line in data[:20]]))
+	keys = reader[0]
+	data = reader[1:]
+	
+	entries = []
+	
+	for values in data:
+		entries.append(dict(zip(keys, values)))
+		
+	print('The worst 100 chocolate bars:')
+	for bar in entries[-100:]:
+		print(bar['Company'], bar['Bar Name'])
+	
+	
+	
+	with open("badchocolate.json", "w") as file2:
+		json.dump(entries[-100:], file2)
